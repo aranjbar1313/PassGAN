@@ -1,0 +1,35 @@
+FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu14.04
+
+LABEL maintainer="Ali Ranjbar <ali1377ranjbar@gmail.com>"
+
+# Change dir
+WORKDIR /app
+
+# Install tools
+RUN apt update && apt install -y git \
+                                 curl
+
+# Install pip
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    rem get-pip.py
+
+# TODO: Install python
+
+# Get code 
+RUN git clone git@github.com:aranjbar1313/PassGAN.git
+
+# Change dir
+WORKDIR /app/PassGAN
+
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Generating password samples
+RUN python sample.py \
+    --input-dir pretrained \
+    --checkpoint pretrained/checkpoints/195000.ckpt \
+    --output gen_passwords.txt \
+    --batch-size 1024 \
+    --num-samples 1000000
+

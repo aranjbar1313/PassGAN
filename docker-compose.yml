@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  sample_gen:
+    container_name: passgan-sample-gen
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    networks:
+      - passgan
+    volumes:
+      - "/home/vazir/Document/Ali/PassGAN/PassGAN/gen_passwords.out:/app/PassGAN/get_passwords.txt"
+
+networks:
+  passgan:
